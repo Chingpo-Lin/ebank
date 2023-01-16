@@ -11,7 +11,7 @@
     <modules>
         <module>ebank-common</module>
         <module>ebank-user</module>
-        <module>ebank-trasaction</module>
+        <module>ebank-transaction</module>
     </modules>
 
     <properties>
