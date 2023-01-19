@@ -2,6 +2,9 @@ package org.example.service;
 
 import org.example.model.UserDO;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.request.UserLoginRequest;
+import org.example.request.UserRegisterRequest;
+import org.example.utils.JsonData;
 
 /**
  * <p>
@@ -13,4 +16,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface UserService extends IService<UserDO> {
 
+    JsonData register(UserRegisterRequest registerRequest);
+
+    JsonData login(UserLoginRequest userLoginRequest);
 }

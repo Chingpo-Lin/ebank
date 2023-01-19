@@ -23,7 +23,7 @@ public class UserDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-      @TableId(value = "id", type = IdType.AUTO)
+    @TableId
     private Long id;
 
     /**
@@ -52,6 +52,11 @@ public class UserDO implements Serializable {
      * balance in usd
      */
     private Long balance;
+
+    /**
+     * user secret
+     */
+    private String secret;
 
 
 }
