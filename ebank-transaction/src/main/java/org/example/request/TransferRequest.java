@@ -21,7 +21,7 @@ public class TransferRequest {
     /**
      * international bank account number
      */
-    private Integer accountIban;
+    private String accountIban;
 
     /**
      * transfer description

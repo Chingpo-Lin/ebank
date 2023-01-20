@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -76,7 +77,7 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
             throw new BizException(BizCodeEnum.ACCOUNT_CURRENCY_RECEIVER_NOT_EXIST);
         }
 
-        Long amount = transferInfo.getAmount();
+        BigDecimal amount = transferInfo.getAmount();
 
         // since sql check balance, and then update it in atomic action, so
         // if will not has error in multi-thread
@@ -85,7 +86,7 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
         // if bug happen in here, if will rollback, and sender account will not lost money
 
         if (rows == 1) {
-            receiverAccountDO.setBalance(receiverAccountDO.getBalance() + amount);
+            receiverAccountDO.setBalance(receiverAccountDO.getBalance().add(amount));
             userAccountMapper.updateById(receiverAccountDO);
         } else {
             throw new BizException(BizCodeEnum.BALANCE_NOT_ENOUGH);
@@ -115,7 +116,7 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
         userAccountDO = new UserAccountDO();
         userAccountDO.setUserId(userId);
         userAccountDO.setCurrency(createAccountRequest.getCurrency());
-        userAccountDO.setBalance(0L);
+        userAccountDO.setBalance(new BigDecimal(0));
 
         userAccountMapper.insert(userAccountDO);
 

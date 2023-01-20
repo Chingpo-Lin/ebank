@@ -4,6 +4,8 @@ import org.apache.ibatis.annotations.Param;
 import org.example.model.UserAccountDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.math.BigDecimal;
+
 /**
  * <p>
  *  Mapper 接口
@@ -15,5 +17,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 public interface UserAccountMapper extends BaseMapper<UserAccountDO> {
 
 
-    int updateAccount(@Param("amount") Long amount, @Param("id") Long id);
+    int updateAccount(@Param("amount") BigDecimal amount, @Param("id") Long id);
 }

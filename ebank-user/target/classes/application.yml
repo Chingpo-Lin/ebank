@@ -5,6 +5,10 @@ server:
 spring:
   application:
     name: ebank-user-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 120.24.94.91:8848
 
   # database config
   datasource:
@@ -25,4 +29,10 @@ mybatis-plus:
 logging:
   level:
     root: INFO
-  config: classpath:logback.xml
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 60000
+        readTimeout: 10000

@@ -40,7 +40,7 @@ public class TransactionDO implements Serializable {
     /**
      * international bank account number
      */
-    private Integer accountIban;
+    private String accountIban;
 
     /**
      * transaction day time

@@ -15,5 +15,5 @@ public interface UserFeignService {
      * @return
      */
     @PostMapping("/s8/user_account/v1/transfer")
-    JsonData detail(@RequestBody TransferInfo transferInfo);
+    JsonData transfer(@RequestBody TransferInfo transferInfo);
 }

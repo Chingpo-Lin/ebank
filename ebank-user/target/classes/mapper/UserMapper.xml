@@ -10,7 +10,6 @@
         <result column="sex" property="sex" />
         <result column="create_time" property="createTime" />
         <result column="mail" property="mail" />
-        <result column="balance" property="balance" />
     </resultMap>
 
     <!-- 通用查询结果列 -->

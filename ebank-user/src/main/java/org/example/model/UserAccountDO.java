@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.math.BigDecimal;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,7 +32,7 @@ public class UserAccountDO implements Serializable {
     /**
      * balance in usd
      */
-    private Long balance;
+    private BigDecimal balance;
 
     /**
      * account currency

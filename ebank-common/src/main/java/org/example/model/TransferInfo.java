@@ -2,6 +2,8 @@ package org.example.model;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class TransferInfo {
 
@@ -9,7 +11,7 @@ public class TransferInfo {
 
     private Long to;
 
-    private Long amount;
+    private BigDecimal amount;
 
     private String currency;
 }

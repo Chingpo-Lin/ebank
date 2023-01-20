@@ -1,15 +1,19 @@
 package org.example.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.enums.BizCodeEnum;
 import org.example.exception.BizException;
+import org.example.feign.UserFeignService;
 import org.example.interceptor.LoginInterceptor;
 import org.example.model.LoginUser;
 import org.example.model.TransactionDO;
 import org.example.mapper.TransactionMapper;
+import org.example.model.TransferInfo;
 import org.example.request.TransferRequest;
 import org.example.service.TransactionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.example.utils.JsonData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -23,7 +27,14 @@ import java.util.Date;
  * @since 2023-01-16
  */
 @Service
+@Slf4j
 public class TransactionServiceImpl implements TransactionService {
+
+    @Autowired
+    private TransactionMapper transactionMapper;
+
+    @Autowired
+    private UserFeignService userFeignService;
 
     /**
      * transfer
@@ -69,8 +80,27 @@ public class TransactionServiceImpl implements TransactionService {
             throw new BizException(BizCodeEnum.TRANSFER_SAME_USER);
         }
 
+        TransferInfo transferInfo = new TransferInfo();
+        transferInfo.setAmount(transferRequest.getAmount());
+        transferInfo.setCurrency(transferRequest.getCurrency());
+        transferInfo.setFrom(loginUser.getId());
+        transferInfo.setTo(transferRequest.getTo());
+        // make feign call
+        JsonData jsonData = userFeignService.transfer(transferInfo);
+
+        log.info("jsonData is:{}", jsonData);
+
+        // 5. check feign call status and save transactionDO object into db if success
+        if (jsonData.getCode() != 0) {
+            throw new BizException(BizCodeEnum.ACCOUNT_TRANSFER_FAIL);
+        }
+
+        transactionMapper.insertToDB(transactionDO);
+
+        // 6. send transactionVO info into Kafka TODO
 
 
-        return null;
+
+        return jsonData.buildSuccess();
     }
 }

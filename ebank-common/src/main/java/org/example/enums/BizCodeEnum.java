@@ -20,6 +20,7 @@ public enum BizCodeEnum {
     ACCOUNT_CURRENCY_EXIST(250005,"currency account exist"),
     ACCOUNT_CURRENCY_SENDER_NOT_EXIST(250006,"please create an account before sending money"),
     ACCOUNT_CURRENCY_RECEIVER_NOT_EXIST(250007,"please ask receiver to create an account"),
+    ACCOUNT_TRANSFER_FAIL(250008, "transfer fail"),
 
     /**
      * transfer

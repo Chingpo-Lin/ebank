@@ -21,7 +21,7 @@ import springfox.documentation.spring.web.json.Json;
  * @since 2023-01-16
  */
 @RestController
-@RequestMapping("/s8/user/v1/")
+@RequestMapping("/s8/transaction/v1/")
 public class TransactionController {
 
     @Autowired
@@ -30,8 +30,7 @@ public class TransactionController {
     @PostMapping("transfer")
     public JsonData transfer(@RequestBody TransferRequest transferRequest) {
         JsonData jsonData = transactionService.transfer(transferRequest);
-        return null;
+        return jsonData;
     }
-
 }
 
