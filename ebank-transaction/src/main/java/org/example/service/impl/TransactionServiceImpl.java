@@ -1,10 +1,12 @@
 package org.example.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.example.enums.BizCodeEnum;
+import org.example.enums.KafkaTopicEnum;
 import org.example.exception.BizException;
 import org.example.feign.UserFeignService;
 import org.example.interceptor.LoginInterceptor;
@@ -21,6 +23,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
@@ -46,6 +49,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Autowired
     private UserFeignService userFeignService;
+
+    @Autowired
+    private KafkaTemplate<String, Object> kafkaTemplate;
 
     /**
      * transfer
@@ -105,7 +111,7 @@ public class TransactionServiceImpl implements TransactionService {
             throw new BizException(BizCodeEnum.ACCOUNT_TRANSFER_FAIL);
         }
 
-        transactionMapper.insertToDB(transactionDO);
+        transactionMapper.insert(transactionDO);
 
         return jsonData.buildSuccess();
     }
@@ -117,13 +123,34 @@ public class TransactionServiceImpl implements TransactionService {
      * @return
      */
     @Override
-    public Map<String, Object> page(int page, int size) {
+    @Transactional(rollbackFor = RuntimeException.class)
+    public Map<String, Object> page(int page, int size, int year, int month) {
 
         LoginUser loginUser = LoginInterceptor.threadLocal.get();
         Page<TransactionDO> pageInfo = new Page<>(page, size);
 
-        IPage<TransactionDO> transactionDOIPage = transactionMapper.selectPage(pageInfo,
-                new QueryWrapper<TransactionDO>().eq("`from`", loginUser.getId()));
+        IPage<TransactionDO> transactionDOIPage = null;
+        if (year == 0 || month == 0) {
+            transactionDOIPage = transactionMapper.selectPage(pageInfo,
+                    new QueryWrapper<TransactionDO>().eq("`from`", loginUser.getId()));
+        } else {
+            String time = "%s-%s-01";
+            String start_date = String.format(time, year, month);
+            if (month == 12) {
+                year++;
+                month = 1;
+            } else {
+                month++;
+            }
+            String end_date = String.format(time, year, month);
+            transactionDOIPage = transactionMapper.selectPage(pageInfo,
+                    new LambdaQueryWrapper<TransactionDO>().eq(TransactionDO::getFrom, loginUser.getId())
+                            .apply(!StringUtils.isEmpty(start_date),
+                                    "date_format (value_date,'%Y-%m') >= date_format('" + start_date + "','%Y-%m')")
+                            .apply(!StringUtils.isEmpty(end_date),
+                                    "date_format (value_date,'%Y-%m') < date_format('" + end_date + "','%Y-%m')")
+                            .orderByDesc(TransactionDO::getValueDate));
+        }
 
         List<TransactionDO> transactionDOList = transactionDOIPage.getRecords();
 
@@ -135,7 +162,7 @@ public class TransactionServiceImpl implements TransactionService {
             transactionVO.setReceiverName(receiverName);
 
             // consume by Kafka TODO
-
+            sendKafkaMsg(item);
 
             return transactionVO;
         }).collect(Collectors.toList());
@@ -145,5 +172,19 @@ public class TransactionServiceImpl implements TransactionService {
         pageMap.put("total_page", transactionDOIPage.getPages());
         pageMap.put("current_data",transactionVOList);
         return pageMap;
+    }
+
+    private void sendKafkaMsg(TransactionDO transactionDO) {
+        String topic = KafkaTopicEnum.BANK_TRANSACTION_TOPIC.getName();
+
+        kafkaTemplate.send(topic, transactionDO.getId().toString(), transactionDO.toString()).addCallback(success -> {
+            String topicName = success.getRecordMetadata().topic();
+            int partition = success.getRecordMetadata().partition();
+            long offset = success.getRecordMetadata().offset();
+            log.info("succussfully send by kafka with topic:{}, " +
+                    "partition:{}, offset:{}", topicName, partition, offset);
+        }, failure -> {
+            log.info("fail to send to kafka:{}", failure.getMessage() );
+        });
     }
 }

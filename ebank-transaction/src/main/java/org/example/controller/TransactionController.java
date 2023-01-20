@@ -46,9 +46,11 @@ public class TransactionController {
     @GetMapping("page")
     public JsonData page(
             @RequestParam(value = "page", defaultValue = "1") int page,
-            @RequestParam(value = "size", defaultValue = "5") int size) {
+            @RequestParam(value = "size", defaultValue = "5") int size,
+            @RequestParam(value = "year", defaultValue = "0") int year,
+            @RequestParam(value = "month", defaultValue = "0") int month) {
 
-        Map<String, Object> pageResult = transactionService.page(page, size);
+        Map<String, Object> pageResult = transactionService.page(page, size, year, month);
         return JsonData.buildSuccess(pageResult);
     }
 }

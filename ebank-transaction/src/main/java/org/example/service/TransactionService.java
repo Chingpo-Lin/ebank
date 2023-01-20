@@ -24,5 +24,5 @@ public interface TransactionService {
      */
     JsonData transfer(TransferRequest transferRequest);
 
-    Map<String, Object> page(int page, int size);
+    Map<String, Object> page(int page, int size, int year, int month);
 }

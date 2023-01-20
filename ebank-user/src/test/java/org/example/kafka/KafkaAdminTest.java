@@ -30,7 +30,7 @@ public class KafkaAdminTest {
         AdminClient adminClient = initAdminClient();
 
         // partition num & replication num
-        NewTopic newTopic = new NewTopic(TOPIC_NAME, 1, (short) 1);
+        NewTopic newTopic = new NewTopic(TOPIC_NAME, 2, (short) 1);
 
         CreateTopicsResult createTopicsResult = adminClient.createTopics(Arrays.asList(newTopic));
         try {
@@ -71,7 +71,7 @@ public class KafkaAdminTest {
     public void delTopicTest() throws ExecutionException, InterruptedException {
         AdminClient adminClient = initAdminClient();
 
-        DeleteTopicsResult deleteTopicsResult = adminClient.deleteTopics(Arrays.asList("ebank-topic-test"));
+        DeleteTopicsResult deleteTopicsResult = adminClient.deleteTopics(Arrays.asList(TOPIC_NAME));
         deleteTopicsResult.all().get();
     }
 
