@@ -36,6 +36,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     @Autowired
     private UserMapper userMapper;
 
+    /**
+     * user signup
+     * @param registerRequest
+     * @return
+     */
     @Override
     public JsonData register(UserRegisterRequest registerRequest) {
         String mail = registerRequest.getMail();
@@ -48,7 +53,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         userDO.setCreateTime(new Date());
         userDO.setMail(mail);
         userDO.setName(registerRequest.getName());
-        userDO.setBalance(0L);
         userDO.setSex(registerRequest.getSex());
         userDO.setSecret("$1$" + CommonUtil.getStringNumRandom(8));
 
@@ -64,6 +68,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         return JsonData.buildSuccess();
     }
 
+    /**
+     * user login
+     * @param userLoginRequest
+     * @return
+     */
     @Override
     public JsonData login(UserLoginRequest userLoginRequest) {
 
@@ -79,6 +88,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         if (cryptPwd.equals(userDO.getPwd())) {
             LoginUser loginUser = LoginUser.builder().build();
             BeanUtils.copyProperties(userDO, loginUser);
+            log.info("login with user:{}", loginUser);
             String accessToken = JWTUtil.geneJsonWebToken(loginUser);
             return JsonData.buildSuccess(accessToken);
         } else {

@@ -48,9 +48,19 @@ public class TransactionDO implements Serializable {
     private Date valueDate;
 
     /**
-     * mail
+     * description
      */
     private String description;
+
+    /**
+     * sender user id
+     */
+    private Long from;
+
+    /**
+     * receiver user id
+     */
+    private Long to;
 
 
 }

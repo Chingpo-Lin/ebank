@@ -1,8 +1,10 @@
 package org.example.controller;
 
 
+import org.example.model.TransferInfo;
 import org.example.request.UserLoginRequest;
 import org.example.request.UserRegisterRequest;
+import org.example.service.UserAccountService;
 import org.example.service.UserService;
 import org.example.utils.JsonData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +49,5 @@ public class UserController {
         JsonData jsonData = userService.login(userLoginRequest);
         return jsonData;
     }
-
-
 }
 

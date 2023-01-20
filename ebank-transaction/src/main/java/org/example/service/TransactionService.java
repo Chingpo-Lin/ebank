@@ -2,10 +2,12 @@ package org.example.service;
 
 import org.example.model.TransactionDO;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.request.TransferRequest;
+import org.example.utils.JsonData;
 
 /**
  * <p>
- *  服务类
+ *  service
  * </p>
  *
  * @author Bob
@@ -13,4 +15,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface TransactionService {
 
+    /**
+     * transfer money into another acount
+     * @param transferRequest
+     * @return
+     */
+    JsonData transfer(TransferRequest transferRequest);
 }

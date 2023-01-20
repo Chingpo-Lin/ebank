@@ -88,5 +88,11 @@
             <artifactId>kafka-clients</artifactId>
         </dependency>
 
+        <!-- feign remote call -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
     </dependencies>
 </project>

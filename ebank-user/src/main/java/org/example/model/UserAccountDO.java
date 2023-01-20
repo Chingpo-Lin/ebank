@@ -2,7 +2,6 @@ package org.example.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import lombok.Data;
@@ -14,44 +13,29 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author Bob
- * @since 2023-01-16
+ * @since 2023-01-19
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("user")
-public class UserDO implements Serializable {
+@TableName("user_account")
+public class UserAccountDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId
+    @TableId(value = "id")
     private Long id;
 
-    /**
-     * name
-     */
-    private String name;
+    private Long userId;
 
     /**
-     * pwd
+     * balance in usd
      */
-    private String pwd;
+    private Long balance;
 
     /**
-     * 0 is female, 1 is male
+     * account currency
      */
-    private Integer sex;
-
-    private Date createTime;
-
-    /**
-     * mail
-     */
-    private String mail;
-
-    /**
-     * user secret
-     */
-    private String secret;
+    private String currency;
 
 
 }
