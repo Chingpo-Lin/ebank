@@ -1,6 +1,8 @@
 package org.example.model;
 
 import java.math.BigDecimal;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
@@ -55,11 +57,13 @@ public class TransactionDO implements Serializable {
     /**
      * sender user id
      */
+    @TableField(value="`from`")
     private Long from;
 
     /**
      * receiver user id
      */
+    @TableField(value="`to`")
     private Long to;
 
 

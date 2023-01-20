@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.request.TransferRequest;
 import org.example.utils.JsonData;
 
+import java.util.Map;
+
 /**
  * <p>
  *  service
@@ -21,4 +23,6 @@ public interface TransactionService {
      * @return
      */
     JsonData transfer(TransferRequest transferRequest);
+
+    Map<String, Object> page(int page, int size);
 }

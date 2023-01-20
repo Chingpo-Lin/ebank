@@ -1,5 +1,8 @@
 package org.example.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.example.enums.BizCodeEnum;
 import org.example.exception.BizException;
@@ -13,10 +16,18 @@ import org.example.request.TransferRequest;
 import org.example.service.TransactionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.example.utils.JsonData;
+import org.example.vo.TransactionVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -53,7 +64,6 @@ public class TransactionServiceImpl implements TransactionService {
      * ------ go back to transaction service:
      *
      * 5. check feign call status and save transactionDO object into db
-     * 6. send transactionVO info into Kafka
      *
      * @param transferRequest
      * @return
@@ -97,10 +107,43 @@ public class TransactionServiceImpl implements TransactionService {
 
         transactionMapper.insertToDB(transactionDO);
 
-        // 6. send transactionVO info into Kafka TODO
-
-
-
         return jsonData.buildSuccess();
+    }
+
+    /**
+     * will return the pagination include sender name, receiver name, currency, value date, amount
+     * @param page
+     * @param size
+     * @return
+     */
+    @Override
+    public Map<String, Object> page(int page, int size) {
+
+        LoginUser loginUser = LoginInterceptor.threadLocal.get();
+        Page<TransactionDO> pageInfo = new Page<>(page, size);
+
+        IPage<TransactionDO> transactionDOIPage = transactionMapper.selectPage(pageInfo,
+                new QueryWrapper<TransactionDO>().eq("`from`", loginUser.getId()));
+
+        List<TransactionDO> transactionDOList = transactionDOIPage.getRecords();
+
+        List<TransactionVO> transactionVOList = transactionDOList.stream().map(item -> {
+            TransactionVO transactionVO = new TransactionVO();
+            BeanUtils.copyProperties(item, transactionVO);
+            transactionVO.setSenderName(loginUser.getName());
+            String receiverName = userFeignService.getUserName(item.getTo()).getData().toString();
+            transactionVO.setReceiverName(receiverName);
+
+            // consume by Kafka TODO
+
+
+            return transactionVO;
+        }).collect(Collectors.toList());
+
+        Map<String, Object> pageMap = new HashMap<>(3);
+        pageMap.put("total_record", transactionDOIPage.getTotal());
+        pageMap.put("total_page", transactionDOIPage.getPages());
+        pageMap.put("current_data",transactionVOList);
+        return pageMap;
     }
 }

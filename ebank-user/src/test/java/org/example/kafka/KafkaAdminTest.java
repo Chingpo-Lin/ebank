@@ -8,7 +8,7 @@ import java.util.concurrent.ExecutionException;
 
 public class KafkaAdminTest {
 
-    private static final String TOPIC_NAME = "ebank-v1-topic-test";
+    private static final String TOPIC_NAME = "ebank-transaction-topic";
 
     /**
      * config admin client
@@ -30,7 +30,7 @@ public class KafkaAdminTest {
         AdminClient adminClient = initAdminClient();
 
         // partition num & replication num
-        NewTopic newTopic = new NewTopic(TOPIC_NAME, 5, (short) 1);
+        NewTopic newTopic = new NewTopic(TOPIC_NAME, 1, (short) 1);
 
         CreateTopicsResult createTopicsResult = adminClient.createTopics(Arrays.asList(newTopic));
         try {

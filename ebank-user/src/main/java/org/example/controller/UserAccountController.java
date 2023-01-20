@@ -49,7 +49,6 @@ public class UserAccountController {
      */
     @PostMapping("transfer")
     public JsonData transferPrepare(@RequestBody TransferInfo transferInfo) {
-        log.info("enter here");
         JsonData jsonData = userAccountService.transfer(transferInfo);
         log.info("code is:{}", jsonData.getCode());
         return jsonData;
