@@ -1,6 +1,7 @@
 package org.example.controller;
 
 
+import io.swagger.annotations.Api;
 import org.example.request.TransferRequest;
 import org.example.service.TransactionService;
 import org.example.utils.JsonData;
@@ -19,6 +20,7 @@ import java.util.Map;
  * @author Bob
  * @since 2023-01-16
  */
+@Api("Transaction Module")
 @RestController
 @RequestMapping("/s8/transaction/v1/")
 public class TransactionController {

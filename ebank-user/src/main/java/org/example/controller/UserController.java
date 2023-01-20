@@ -1,6 +1,7 @@
 package org.example.controller;
 
 
+import io.swagger.annotations.Api;
 import org.example.enums.BizCodeEnum;
 import org.example.exception.BizException;
 import org.example.model.TransferInfo;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
  * @author Bob
  * @since 2023-01-16
  */
+@Api("User Module")
 @RestController
 @RequestMapping("/s8/user/v1/")
 public class UserController {
