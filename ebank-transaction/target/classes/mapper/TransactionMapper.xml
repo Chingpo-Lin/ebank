@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.TransactionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.example.model.TransactionDO">
+        <id column="id" property="id" />
+        <result column="currency" property="currency" />
+        <result column="amount" property="amount" />
+        <result column="account_iban" property="accountIban" />
+        <result column="value_date" property="valueDate" />
+        <result column="description" property="description" />
+        <result column="from" property="from" />
+        <result column="to" property="to" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, currency, amount, account_iban, value_date, description, `from`, `to`
+    </sql>
+
+    <insert id="insertToDB">
+        INSERT INTO `transaction` (`currency`, `amount`, `account_iban`, `value_date`, `description`, `from`, `to`)
+        VALUES (#{currency}, #{amount}, #{accountIban}, #{valueDate}, #{description},
+                #{from}, #{to});
+    </insert>
+</mapper>
