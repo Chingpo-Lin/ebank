@@ -34,15 +34,15 @@ code is organized in microservice architecture include:
 2. minus balance from send user
     - because I use a sql to complete the process,
     - it will only update when balance >= send amount
-    - since sql check balance, and then update it in atomic action, so 
+    - since sql check balance, and then update it in atomic action, so
     - it will not have error in multi-thread
 3. add balance to receive user
     - only execute when third step success
-    
+
 # Transaction APIs
-## transfer 
+## transfer
 1. create and set transactionDO object and check if send user has a same id as receive user
-2 to 4. feign call for user transfer service
+   2 to 4. feign call for user transfer service
 5. check feign call status and save transactionDO object into db
 
 ## page
@@ -51,7 +51,7 @@ code is organized in microservice architecture include:
 3. convert TransactionDO object into VO to show user
 4. send to kafka for each transaction with id as key
 5. consume kafka msg
-6. return page, total page, current page info 
+6. return page, total page, current page info
 
 
 # swagger documentation
