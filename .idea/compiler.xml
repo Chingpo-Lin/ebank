@@ -8,11 +8,8 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ebank-common" />
         <module name="ebank-user" />
-        <module name="ebank-trasaction" />
+        <module name="ebank-transaction" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="ebank-transaction" target="11" />
-    </bytecodeTargetLevel>
   </component>
 </project>
