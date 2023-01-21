@@ -1,6 +1,7 @@
 package org.example.controller;
 
 
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.example.model.TransferInfo;
 import org.example.request.CreateAccountRequest;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Bob
  * @since 2023-01-19
  */
+@Api("User Account Module")
 @RestController
 @Slf4j
 @RequestMapping("/s8/user_account/v1/")
@@ -49,7 +51,6 @@ public class UserAccountController {
      */
     @PostMapping("transfer")
     public JsonData transferPrepare(@RequestBody TransferInfo transferInfo) {
-        log.info("enter here");
         JsonData jsonData = userAccountService.transfer(transferInfo);
         log.info("code is:{}", jsonData.getCode());
         return jsonData;
