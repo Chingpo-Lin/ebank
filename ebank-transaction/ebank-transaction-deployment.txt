@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ebank-transaction-deployment
+  labels:
+    app: ebank-transaction
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ebank-transaction
+  template:
+    metadata:
+      labels:
+        app: ebank-transaction
+    spec:
+      containers:
+      - name: ebank-transaction
+        image: ebank-transaction
+        ports:
+        - containerPort: 7081

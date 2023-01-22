@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ebank-user-deployment
+  labels:
+    app: ebank-user
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ebank-user
+  template:
+    metadata:
+      labels:
+        app: ebank-user
+    spec:
+      containers:
+      - name: ebank-user
+        image: ebank-user
+        ports:
+        - containerPort: 7080
