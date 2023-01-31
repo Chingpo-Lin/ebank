@@ -7,15 +7,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MybatisPlusPageConfig {
-
-//    /**
-//     * out of dated
-//     */
-//    @Bean
-//    public PaginationInterceptor paginationInterceptor() {
-//        return new PaginationInterceptor();
-//    }
-
     /**
      * new pagination config
      * @return
