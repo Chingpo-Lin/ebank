@@ -1,0 +1,248 @@
+{
+	"info": {
+		"_postman_id": "a145ac77-e70f-4e3b-b97e-afa0e3dea837",
+		"name": "ebank",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20249582"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mail\": \"12345678@gmail.com\",\n    \"name\": \"Bob2\",\n    \"sex\": 0,\n    \"pwd\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{user-server}}/s8/user/v1/register",
+							"host": [
+								"{{user-server}}"
+							],
+							"path": [
+								"s8",
+								"user",
+								"v1",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mail\": \"12345678@gmail.com\",\n    \"pwd\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{user-server}}/s8/user/v1/login",
+							"host": [
+								"{{user-server}}"
+							],
+							"path": [
+								"s8",
+								"user",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create account",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token2}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"currency\": \"CHF\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{user-server}}/s8/user_account/v1/create_account",
+							"host": [
+								"{{user-server}}"
+							],
+							"path": [
+								"s8",
+								"user_account",
+								"v1",
+								"create_account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transfer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"from\": \"1615129628081508354\",\n    \"to\": \"1616215682901393409\",\n    \"currency\": \"CHF\",\n    \"amount\": 30\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{user-server}}/s8/user_account/v1/transfer",
+							"host": [
+								"{{user-server}}"
+							],
+							"path": [
+								"s8",
+								"user_account",
+								"v1",
+								"transfer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{user-server}}/s8/user/v1/get_name/1616215682901393409",
+							"host": [
+								"{{user-server}}"
+							],
+							"path": [
+								"s8",
+								"user",
+								"v1",
+								"get_name",
+								"1616215682901393409"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "transaction",
+			"item": [
+				{
+					"name": "transfer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"currency\": \"CHF\",\n    \"amount\": 20,\n    \"accountIban\": \"5432WW1\",\n    \"description\": \"food4\",\n    \"to\": 1616215682901393409\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{transaction-server}}/s8/transaction/v1/transfer",
+							"host": [
+								"{{transaction-server}}"
+							],
+							"path": [
+								"s8",
+								"transaction",
+								"v1",
+								"transfer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "page",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{transaction-server}}/s8/transaction/v1/page?page=1&size=2&year=2023&month=1",
+							"host": [
+								"{{transaction-server}}"
+							],
+							"path": [
+								"s8",
+								"transaction",
+								"v1",
+								"page"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "2"
+								},
+								{
+									"key": "year",
+									"value": "2023"
+								},
+								{
+									"key": "month",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

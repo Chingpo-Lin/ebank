@@ -54,7 +54,7 @@
 
             <!--https://mvnrepository.com/artifact/org.projectlombok/lombok/1.18.16-->
             <!--scope=provided，means only work in compile，do not need in build
-            , Lombok come with lombok annotaion, Java can successfully compile to class file-->
+            , Lombok come with lombok annotation, Java can successfully compile to class file-->
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>

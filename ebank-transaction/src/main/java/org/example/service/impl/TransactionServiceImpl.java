@@ -161,7 +161,7 @@ public class TransactionServiceImpl implements TransactionService {
             String receiverName = userFeignService.getUserName(item.getTo()).getData().toString();
             transactionVO.setReceiverName(receiverName);
 
-            // consume by Kafka TODO
+            // consume by Kafka
             sendKafkaMsg(item);
 
             return transactionVO;

@@ -28,14 +28,6 @@ public class CommonUtil {
     }
 
     /**
-     * get current timestamp
-     * @return
-     */
-    public static long getCurrentTimestamp() {
-        return System.currentTimeMillis();
-    }
-
-    /**
      * response Json data to frontend
      * @param response
      * @param obj
