@@ -2,7 +2,8 @@ package org.example.enums;
 
 public enum KafkaTopicEnum {
 
-    BANK_TRANSACTION_TOPIC("ebank-transaction-topic");
+    BANK_TRANSACTION_PAGE_TOPIC("ebank-transaction-topic"),
+    BANK_TRANSACTION_TRANSFER_TOPIC("ebank-transfer-topic");
 
     private String name;
 
