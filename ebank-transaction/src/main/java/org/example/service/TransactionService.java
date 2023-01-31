@@ -1,5 +1,6 @@
 package org.example.service;
 
+import com.alibaba.fastjson.JSONObject;
 import org.example.model.TransactionDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.request.TransferRequest;
@@ -24,5 +25,20 @@ public interface TransactionService {
      */
     JsonData transfer(TransferRequest transferRequest);
 
+    /**
+     * page
+     * @param page
+     * @param size
+     * @param year
+     * @param month
+     * @return
+     */
     Map<String, Object> page(int page, int size, int year, int month);
+
+    /**
+     * consume transfer by kafka
+     * @param jsonObject
+     * @return
+     */
+    boolean transferConsume(JSONObject jsonObject);
 }

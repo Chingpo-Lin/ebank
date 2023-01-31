@@ -8,7 +8,7 @@ import java.util.concurrent.ExecutionException;
 
 public class KafkaAdminTest {
 
-    private static final String TOPIC_NAME = "ebank-transaction-topic";
+    private static final String TOPIC_NAME = "ebank-transfer-topic";
 
     /**
      * config admin client

@@ -14,4 +14,6 @@ public class TransferInfo {
     private BigDecimal amount;
 
     private String currency;
+
+    private Long transactionId;
 }

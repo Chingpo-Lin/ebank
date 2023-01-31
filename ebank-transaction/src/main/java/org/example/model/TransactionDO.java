@@ -71,5 +71,10 @@ public class TransactionDO implements Serializable {
     @TableField(value="`to`")
     private Long to;
 
+    /**
+     * status
+     */
+    @TableField(value="`status`")
+    private Integer status;
 
 }

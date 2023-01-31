@@ -1,0 +1,57 @@
+
+server:
+  port: 7081
+
+spring:
+  application:
+    name: ebank-transaction-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 120.24.94.91:8848
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    producer:
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      transaction-id-prefix: ebank-tran
+    consumer:
+      auto-commit-interval: 1S
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      concurrency: 4
+      ack-mode: manual_immediate
+      missing-topics-fatal: false
+
+
+  # database config
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://120.24.94.91:3306/ebank-transaction?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=US/Pacific
+    username: root
+    password: xdclass.net168
+
+# config mybatis plus print sql
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: ASSIGN_ID
+
+# config log level,ERROR/WARN/INFO/DEBUG,default is show when higher than INFO level
+logging:
+  level:
+    root: INFO
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 60000
+        readTimeout: 10000

@@ -14,4 +14,6 @@ import org.example.model.TransactionDO;
 public interface TransactionMapper extends BaseMapper<TransactionDO> {
 
     void insertToDB(TransactionDO transactionDO);
+
+    int updateStatusById(Long transactionId);
 }

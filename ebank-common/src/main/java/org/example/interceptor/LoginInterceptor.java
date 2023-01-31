@@ -27,6 +27,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             accessToken = request.getParameter("token");
         }
 
+        log.info("get token", accessToken);
         if (!StringUtils.isEmpty(accessToken)) {
             Claims claims = JWTUtil.checkJWT(accessToken);
             if (claims == null) {
