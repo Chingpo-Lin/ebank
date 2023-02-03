@@ -59,7 +59,8 @@ public class TransactionServiceImpl implements TransactionService {
     /**
      * transfer
      *
-     * 1. create and send transactionDO object with status 0 and check if send user has a same id as receive user
+     * 1. create and save transactionDO object with status 0 and
+     * check if send user has a same id as receive user
      *
      * send following things to be consumed by kafka and handled after for clipping
      * ------ feign call to user service:
