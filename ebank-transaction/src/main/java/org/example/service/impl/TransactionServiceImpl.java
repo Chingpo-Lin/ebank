@@ -126,7 +126,7 @@ public class TransactionServiceImpl implements TransactionService {
 //
 //        transactionMapper.insert(transactionDO);
 
-        return JsonData.buildSuccess();
+        return JsonData.buildSuccess(null, "transaction in progress");
     }
 
     /**

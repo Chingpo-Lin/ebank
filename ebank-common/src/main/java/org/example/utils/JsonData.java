@@ -37,6 +37,14 @@ public class JsonData {
         return new JsonData(0, data, null);
     }
     /**
+     * success with data and msg
+     * @param data
+     * @return
+     */
+    public static JsonData buildSuccess(Object data, String msg) {
+        return new JsonData(0, data, msg);
+    }
+    /**
      * fail with msg
      * @param msg
      * @return
